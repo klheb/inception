@@ -17,6 +17,8 @@ services:
 		restart: always
 		depends_on:
 			- mariadb
+		environment:
+			.env
 
 	mariadb:
 		container_name: mariadb
@@ -24,6 +26,8 @@ services:
 		volumes:
 			- mariadb_data:/var/lib/mysql
 		restart: always
+		environment:
+			.env
 
 volumes:
 

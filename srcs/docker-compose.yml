@@ -1,36 +1,86 @@
+version: '3'
+
 services:
 
-	nginx:
-		container_name: nginx
-		ports:
-			- "443:443"
-		build: ./requirements/nginx
-		volumes:
-			- wordpress_data:/var/www/html
-		restart: always
+ nginx:
+  container_name: nginx
+  ports:
+   - "443:443"
+  build: ./requirements/nginx
+  volumes:
+   - wordpress_data:/var/www/html
+  restart: always
+  depends_on:
+   - wordpress
+  networks:
+   - network
 
-	wordpress:
-		container_name: wordpress
-		build: ./requirements/wordpress
-		volumes:
-			- wordpress_data:/var/www/html
-		restart: always
-		depends_on:
-			- mariadb
-		environment:
-			.env
+ wordpress:
+  container_name: wordpress
+  build: ./requirements/wordpress
+  volumes:
+   - wordpress_data:/var/www/html
+  restart: always
+  depends_on:
+   - mariadb
+  env_file:
+   .env
+  networks:
+   - network
 
-	mariadb:
-		container_name: mariadb
-		build: ./requirements/mariadb
-		volumes:
-			- mariadb_data:/var/lib/mysql
-		restart: always
-		environment:
-			.env
+ mariadb:
+  container_name: mariadb
+  build: ./requirements/mariadb
+  volumes:
+   - mariadb_data:/var/lib/mysql
+  restart: always
+  env_file:
+   .env
+  networks:
+   - network
+
+ redis:
+  container_name: redis
+  ports:
+    - "6379:6379"
+  build: ./requirements/bonus/redis
+  volumes:
+    - wordpress_data:/var/www/html
+  restart: always
+  depends_on:
+    - wordpress
+  networks:
+    - network
+
+ ftp:
+  container_name: ftp
+  ports:
+    - "21:21"
+    - "20:20"
+  build: ./requirements/bonus/ftp
+  volumes:
+    - wordpress_data:/var/www/html
+  restart: always
+  env_file:
+   .env
+  networks:
+    - network
 
 volumes:
+ wordpress_data:
+  driver: local
+  driver_opts:
+   type: none
+   o: bind
+   device: /home/klheb/data/wordpress
+ mariadb_data:
+  driver: local
+  driver_opts:
+   type: none
+   o: bind
+   device: /home/klheb/data/mariadb
 
-	wordpress_data:
-
-	mariadb_data:
+networks:
+ network:
+  driver: bridge
+  name: my_network

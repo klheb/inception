@@ -19,10 +19,6 @@ else
 	sed -i "s/database_name_here/$MYSQL_DATABASE/g" wp-config-sample.php
 	cp wp-config-sample.php wp-config.php
 
-	#add admin and another user
-    wp user create admin admin@example.com --role=administrator --user_pass=admin_password --allow-root
-    wp user create subscriber subscriber@example.com --role=subscriber --user_pass=subscriber_password --allow-root
-
 	# wp config set WP_REDIS_HOST redis --allow-root #I put --allowroot because i am on the root user on my VM
   	# wp config set WP_REDIS_PORT 6379 --raw --allow-root
  	# wp config set WP_CACHE_KEY_SALT $DOMAIN_NAME --allow-root
@@ -33,5 +29,9 @@ else
 	# wp redis enable --allow-root
 
 fi
+
+	#add admin and another user
+    wp user create admin admin@example.com --role=administrator --user_pass=admin_password --allow-root
+    wp user create subscriber subscriber@example.com --role=subscriber --user_pass=subscriber_password --allow-root
 
 exec "$@"

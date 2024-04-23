@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ -d "/var/lib/mysql/${MYSQL_DATABASE}" ]
+if [ -d "/var/lib/mysql/${SQL_DATABASE}" ]
 
 then
     echo "${MYSQL_DATABASE} already exists\n"

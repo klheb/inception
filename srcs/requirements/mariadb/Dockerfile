@@ -4,13 +4,14 @@ FROM debian:bullseye
 RUN apt-get update && apt-get install -y mariadb-server \
         && rm -rf /var/lib/apt/lists/*
 
-#allow to run the daemon of mysql
-			RUN mkdir -p /var/run/mysqld \
-				&& chown -R mysql:mysql /var/run/mysqld \
-				&& chmod 777 /var/run/mysqld
+# Create necessary directories and set permissions
+RUN mkdir -p /var/run/mysqld && \
+    chown -R mysql:mysql /var/run/mysqld && \
+    chmod 755 /var/run/mysqld
 
-RUN mkdir -p /var/run/mysqld \
-    && chown -R mysql:mysql /var/run/mysqld
+RUN mkdir -p /var/lib/mysql && \
+    chown mysql:mysql /var/lib/mysql && \
+    chmod 755 /var/lib/mysql
 
 #COPY ./tools/init.sql /docker-entrypoint-initdb.d/init.sql
 

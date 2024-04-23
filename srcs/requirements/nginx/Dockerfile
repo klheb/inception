@@ -1,5 +1,5 @@
 #mandatory
-FROM debian:buster
+FROM debian:bullseye
 
 #install nginx and ssl
 RUN apt-get -y update && apt-get -y install nginx openssl

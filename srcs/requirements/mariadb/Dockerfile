@@ -15,7 +15,7 @@ RUN mkdir -p /var/run/mysqld \
 #COPY ./tools/init.sql /docker-entrypoint-initdb.d/init.sql
 
 # Configuration personnalisée de MariaDB
-COPY ./conf/my.cnf /etc/mysql/my.cnf
+COPY ./conf/my.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 #mandatory
 EXPOSE 3306

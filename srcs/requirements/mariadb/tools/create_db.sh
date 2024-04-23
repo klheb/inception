@@ -4,7 +4,10 @@
 mysql_install_db
 
 #start db
-/etc/init.d/mysql start
+mysqld_safe &
+
+# wait for mysql to start
+sleep 10
 
 if [ -d "/var/lib/mysql/$MYSQL_DATABASE"]
 then

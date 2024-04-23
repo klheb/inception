@@ -30,6 +30,7 @@ else
 
 fi
 
-/etc/init.d/mysql stop
+#stop mysql
+mysqladmin -u root -p$MYSQL_ROOT_PASSWORD shutdown
 
 exec "$@"

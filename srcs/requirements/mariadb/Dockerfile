@@ -21,11 +21,11 @@ COPY ./conf/my.cnf /etc/mysql/my.cnf
 EXPOSE 3306
 
 COPY ./tools/create_db.sh /usr/local/bin/
-COPY ./conf/wordpress.sql /usr/local/bin/
+# COPY ./conf/wordpress.sql /usr/local/bin/
 RUN chmod +x /usr/local/bin/create_db.sh
-RUN chmod +x /usr/local/bin/wordpress.sql
+# RUN chmod +x /usr/local/bin/wordpress.sql
 
 ENTRYPOINT [ "/usr/local/bin/create_db.sh" ]
 
 #launch mariadb and bind address to listen globally
-CMD ["mysqld", "--bind-address=0.0.0.0"]
+# CMD ["mysqld", "--bind-address=0.0.0.0"]

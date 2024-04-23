@@ -39,32 +39,32 @@ services:
   networks:
    - network
 
- redis:
-  container_name: redis
-  ports:
-    - "6379:6379"
-  build: ./requirements/bonus/redis
-  volumes:
-    - wordpress_data:/var/www/html
-  restart: always
-  depends_on:
-    - wordpress
-  networks:
-    - network
+#  redis:
+#   container_name: redis
+#   ports:
+#     - "6379:6379"
+#   build: ./requirements/bonus/redis
+#   volumes:
+#     - wordpress_data:/var/www/html
+#   restart: always
+#   depends_on:
+#     - wordpress
+#   networks:
+#     - network
 
- ftp:
-  container_name: ftp
-  ports:
-    - "21:21"
-    - "20:20"
-  build: ./requirements/bonus/ftp
-  volumes:
-    - wordpress_data:/var/www/html
-  restart: always
-  env_file:
-   .env
-  networks:
-    - network
+#  ftp:
+#   container_name: ftp
+#   ports:
+#     - "21:21"
+#     - "20:20"
+#   build: ./requirements/bonus/ftp
+#   volumes:
+#     - wordpress_data:/var/www/html
+#   restart: always
+#   env_file:
+#    .env
+#   networks:
+#     - network
 
 volumes:
  wordpress_data:

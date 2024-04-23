@@ -31,7 +31,7 @@ else
 fi
 
 	#add admin and another user
-	wp core install --url="your_domain" --title="Your Site Title" --admin_user="admin" --admin_password="admin_password" --admin_email="admin@example.com" --allow-root
+	wp core install --url="rfouraul.42.fr" --title="Your Site Title" --admin_user="admin" --admin_password="admin_password" --admin_email="admin@example.com" --allow-root
     wp user create subscriber subscriber@example.com --role=subscriber --user_pass=subscriber_password --allow-root
 
 exec "$@"

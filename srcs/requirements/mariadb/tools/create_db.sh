@@ -1,36 +1,34 @@
-#!/bin/sh
+#!/bin/bash
+set -e
 
-#create db
-mysql_install_db
+if [ -d "/var/lib/mysql/${MYSQL_DATABASE}" ]
 
-#start db
-mysqld_safe &
-
-# wait for mysql to start
-sleep 10
-
-if [ -d "/var/lib/mysql/$MYSQL_DATABASE"]
 then
-	echo "database already exist"
-else
+    echo "${MYSQL_DATABASE} already exists\n"
 
-    #launch installation
-    echo "UPDATE mysql.user SET Password=PASSWORD('$MYSQL_ROOT_PASSWORD') WHERE User='root'; DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; FLUSH PRIVILEGES;" | mysql -u root
+else 
+    # Start MariaDB service
+    service mariadb start
 
-    #Add a root user on 127.0.0.1 to allow remote connexion 
-    #Flush privileges allow to your sql tables to be updated automatically when you modify it
-    #mysql -uroot launch mysql command line client
-    echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -u root
+    # Wait for MariaDB to start
+    sleep 10
 
-    #create database and user
-    echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;"| mysql -u root
+    # Log into MariaDB as root and execute SQL commands
+    mysql -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;"
+    mysql -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+    mysql -e "GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO \`${MYSQL_USER}\`@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+    mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
+    mysql -e "FLUSH PRIVILEGES;"
 
-    #import database
-    mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /usr/local/bin/wordpress.sql
+    sleep 1
+
+    # Stop MariaDB service
+    mysqladmin -u root -p${MYSQL_ROOT_PASSWORD} shutdown
+    sleep 1
+
+    # Print status
+    echo "MariaDB database and user were created successfully!"
 
 fi
-
-#stop mysql
-mysqladmin -u root -p$MYSQL_ROOT_PASSWORD shutdown
-
-exec "$@"
+# Start MariaDB in the foreground
+exec mysqld

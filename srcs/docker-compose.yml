@@ -9,7 +9,7 @@ services:
   build: ./requirements/nginx
   volumes:
    - wordpress_data:/var/www/html
-  restart: unless-stopped
+  restart: always
   depends_on:
    - wordpress
   networks:
@@ -22,7 +22,7 @@ services:
    - wordpress_data:/var/www/html
   expose:
    - "9000"
-  restart: unless-stopped
+  restart: always
   depends_on:
    - mariadb
   env_file:
@@ -37,9 +37,10 @@ services:
    - mariadb_data:/var/lib/mysql
   expose:
    - "3306"
-  restart: unless-stopped
+  restart: always
   env_file:
    .env
+
   networks:
    - network
 
@@ -50,7 +51,7 @@ services:
 #   build: ./requirements/bonus/redis
 #   volumes:
 #     - wordpress_data:/var/www/html
-#   restart: unless-stopped
+#   restart: always
 #   depends_on:
 #     - wordpress
 #   networks:
@@ -64,7 +65,7 @@ services:
 #   build: ./requirements/bonus/ftp
 #   volumes:
 #     - wordpress_data:/var/www/html
-#   restart: unless-stopped
+#   restart: always
 #   env_file:
 #    .env
 #   networks:
@@ -86,4 +87,5 @@ volumes:
 
 networks:
  network:
+  driver: bridge
   name: my_network

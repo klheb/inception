@@ -1,9 +1,6 @@
 #mandatory
 FROM debian:bullseye
 
-# Change the Debian mirror
-RUN sed -i 's/http:\/\/deb.debian.org/http:\/\/ftp.debian.org/g' /etc/apt/sources.list
-
 RUN apt-get update -y && \
     apt-get install -y mariadb-server
 

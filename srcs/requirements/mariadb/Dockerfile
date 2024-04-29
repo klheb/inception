@@ -1,7 +1,9 @@
 #mandatory
 FROM debian:bullseye
 
-RUN apt-get update && apt-get install -y mariadb-server
+RUN sed -i 's/^deb http:\/\/security.debian.org\/debian-security bullseye\/updates main/# &/' /etc/apt/sources.list && \
+    apt-get update -y && \
+    apt-get install -y mariadb-server
 
 # Create necessary directories and set permissions
 RUN mkdir -p /var/run/mysqld && \

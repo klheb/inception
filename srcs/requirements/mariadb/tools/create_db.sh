@@ -18,6 +18,9 @@ mysql -e "GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO \`${MYSQL_USER}\`@'
 mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
 mysql -e "FLUSH PRIVILEGES;"
 sleep 1
+
+echo "STARTING MARIADB"
+
 # Stop MariaDB service
 mysqladmin -u root -p${MYSQL_ROOT_PASSWORD} shutdown
 sleep 1
@@ -26,7 +29,5 @@ echo "MariaDB database and user were created successfully!"
 
 # fi
 # Start MariaDB in the foreground
-
-echo "STARTING MARIADB"
 
 exec mysqld --debug

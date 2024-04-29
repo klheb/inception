@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e
 
-if [ -d "/var/lib/mysql/${MYSQL_DATABASE}" ]
+# if [ -d "/var/lib/mysql/${MYSQL_DATABASE}" ]
 
-then
-    echo "${MYSQL_DATABASE} already exists\n"
+# then
+#     echo "${MYSQL_DATABASE} already exists\n"
 
-else 
+# else 
     # Start MariaDB service
     service mariadb start
 
@@ -29,6 +29,6 @@ else
     # Print status
     echo "MariaDB database and user were created successfully!"
 
-fi
+# fi
 # Start MariaDB in the foreground
 exec mysqld

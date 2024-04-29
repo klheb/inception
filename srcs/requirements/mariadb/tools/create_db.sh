@@ -23,7 +23,7 @@ else
     sleep 1
 
     # Stop MariaDB service
-    mysqladmin -u root -p${MYSQL_ROOT_PASSWORD} shutdown
+    mysqladmin -u root --password=${MYSQL_ROOT_PASSWORD} shutdown
     sleep 1
 
     # Print status

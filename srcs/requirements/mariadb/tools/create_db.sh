@@ -33,4 +33,4 @@ fi
 
 echo "STARTING"
 
-exec mysqld
+exec "$@"

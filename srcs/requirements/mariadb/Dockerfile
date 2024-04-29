@@ -29,4 +29,4 @@ RUN chmod +x /usr/local/bin/create_db.sh
 ENTRYPOINT [ "/usr/local/bin/create_db.sh" ]
 
 # launch mariadb and bind address to listen globally
-# CMD ["mysqld", "--bind-address=0.0.0.0"]
+CMD ["mysqld", "--bind-address=0.0.0.0"]

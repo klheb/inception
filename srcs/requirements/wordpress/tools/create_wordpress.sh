@@ -1,54 +1,37 @@
-#!/bin/bash
+#!/bin/sh
 
-# Wait for 10 seconds to ensure everything is ready
-sleep 10
-
-mkdir -p /run/php/
-chown www-data:www-data /run/php/
-cd /var/www/html
-
-# Check if wp-config.php file exists
-if [ -f "/var/www/html/wp-config.php" ]; then
-    echo "WordPress is already set up!"
+if [ -f ./wp-config.php ]
+then
+	echo "wordpress already downloaded"
 else
-    echo "Setting up WordPress"
-	
-    /usr/local/bin/wp-cli.phar core download --allow-root
-                                --path='/var/www/html'
 
+	#download wordpress
+	wget https://wordpress.org/latest.tar.gz
+	tar xfz latest.tar.gz
+	mv wordpress/* .
+	rm -rf latest.tar.gz
+	rm -rf wordpress
 
-    # Create WordPress configuration file
-    /usr/local/bin/wp-cli.phar config create --allow-root \
-                               --dbname=$MYSQL_DATABASE \
-                               --dbuser=$MYSQL_USER \
-                               --dbpass=$MYSQL_PASSWORD \
-                               --dbhost=$MYSQL_HOST \
-                               --path='/var/www/html'
+	#add env variables
+	sed -i "s/username_here/$MYSQL_USER/g" wp-config-sample.php
+	sed -i "s/password_here/$MYSQL_PASSWORD/g" wp-config-sample.php
+	sed -i "s/localhost/$MYSQL_HOSTNAME/g" wp-config-sample.php
+	sed -i "s/database_name_here/$MYSQL_DATABASE/g" wp-config-sample.php
+	cp wp-config-sample.php wp-config.php
 
-    
-    # Set appropriate permissions for wp-config.php file
-    chmod 777 /var/www/html/wp-config.php
+	# wp config set WP_REDIS_HOST redis --allow-root #I put --allowroot because i am on the root user on my VM
+  	# wp config set WP_REDIS_PORT 6379 --raw --allow-root
+ 	# wp config set WP_CACHE_KEY_SALT $DOMAIN_NAME --allow-root
+  	# #wp config set WP_REDIS_PASSWORD $REDIS_PASSWORD --allow-root
+ 	# wp config set WP_REDIS_CLIENT phpredis --allow-root
+	# wp plugin install redis-cache --activate --allow-root
+    # wp plugin update --all --allow-root
+	# wp redis enable --allow-root
 
-    # Install WordPress
-    /usr/local/bin/wp-cli.phar core install --allow-root \
-                               --url=$URL\
-                               --title="$TITLE" \
-                               --admin_user=$WP_ADMIN_USER \
-                               --admin_password=$WP_ADMIN_PASSWORD \
-                               --admin_email=$WP_ADMIN_MAIL \
-                               --path='/var/www/html'
-
-    # Create an additional user
-    /usr/local/bin/wp-cli.phar user create $WP_SUBSCRIBER_USER $WP_SUBSCRIBER_MAIL \
-                             --allow-root \
-                             --role=author \
-                             --user_pass=$WP_SUBSCRIBER_PASSWORD \
-                             --path='/var/www/html'
-
-    chown -R root:root /var/www/html
-    
-    echo "WordPress is running!"
+	#add admin and another user
+	wp core install --url=$WP_URL --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_MAIL --allow-root
+    wp user create $WP_SUBSCRIBER_USER $WP_SUBSCRIBER_MAIL --role=subscriber --user_pass=$WP_SUBSCRIBER_PASSWORD --allow-root
 
 fi
-# Start PHP-FPM
-exec /usr/sbin/php-fpm7.4 -F -R
+
+exec "$@"

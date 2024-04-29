@@ -1,7 +1,11 @@
 #mandatory
 FROM debian:bullseye
 
-RUN apt-get install -y mariadb-server
+# Change the Debian mirror
+RUN sed -i 's/http:\/\/deb.debian.org/http:\/\/ftp.debian.org/g' /etc/apt/sources.list
+
+RUN apt-get update -y && \
+    apt-get install -y mariadb-server
 
 # Create necessary directories and set permissions
 RUN mkdir -p /var/run/mysqld && \

@@ -12,7 +12,7 @@ else
 	rm -rf latest.tar.gz
 	rm -rf wordpress
 
-	sleep 100
+	sleep 1000
 
 	#add env variables
 	sed -i "s/username_here/$MYSQL_USER/g" wp-config-sample.php

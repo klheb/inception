@@ -28,10 +28,10 @@ else
     # wp plugin update --all --allow-root
 	# wp redis enable --allow-root
 
-fi
-
 	#add admin and another user
-	wp core install --url="rfouraul.42.fr" --title="Your Site Title" --admin_user="admin" --admin_password="admin_password" --admin_email="admin@example.com" --allow-root
-    wp user create subscriber subscriber@example.com --role=subscriber --user_pass=subscriber_password --allow-root
+	wp core install --url=$WP_URL --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_MAIL --allow-root
+    wp user create $WP_SUBSCRIBER_USER $WP_SUBSCRIBER_MAIL --role=subscriber --user_pass=$WP_SUBSCRIBER_PASSWORD --allow-root
+
+fi
 
 exec "$@"

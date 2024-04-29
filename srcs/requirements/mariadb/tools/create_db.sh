@@ -29,4 +29,4 @@ echo "MariaDB database and user were created successfully!"
 
 echo "STARTING MARIADB"
 
-# exec mysqld
+exec "$@"

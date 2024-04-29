@@ -10,7 +10,7 @@ else
         # Start MariaDB service
     service mariadb start
     # Wait for MariaDB to start
-    sleep 5
+    # sleep 5
     # Log into MariaDB as root and execute SQL commands
     mysql -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;"
     mysql -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';"
@@ -23,7 +23,7 @@ else
 
     # Stop MariaDB service
     mysqladmin -u root -p${MYSQL_ROOT_PASSWORD} shutdown
-    sleep 1
+    # sleep 1
     
     # Print status
     echo "MariaDB database and user were created successfully!"

@@ -31,4 +31,7 @@ set -e
 
 # fi
 # Start MariaDB in the foreground
+
+echo "STARTING MARIADB"
+
 exec mysqld

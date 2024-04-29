@@ -24,6 +24,7 @@ else
     # Stop MariaDB service
     mysqladmin -u root -p${MYSQL_ROOT_PASSWORD} shutdown
     sleep 1
+    
     # Print status
     echo "MariaDB database and user were created successfully!"
 

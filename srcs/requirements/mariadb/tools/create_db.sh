@@ -30,4 +30,6 @@ else
 fi
 # Start MariaDB in the foreground
 
+echo "STARTING"
+
 exec mysqld

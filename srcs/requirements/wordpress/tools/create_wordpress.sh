@@ -12,8 +12,7 @@ if [ -f "/var/www/html/wp-config.php" ]; then
     echo "WordPress is already set up!"
 else
     echo "Setting up WordPress"
-    sleep 10
-
+	
     /usr/local/bin/wp-cli.phar core download --allow-root
                                 --path='/var/www/html'
 

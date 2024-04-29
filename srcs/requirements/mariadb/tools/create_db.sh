@@ -30,4 +30,4 @@ else
 fi
 # Start MariaDB in the foreground
 
-exec mysqld --debug
+exec mysqld

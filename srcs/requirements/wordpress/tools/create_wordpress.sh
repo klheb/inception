@@ -30,7 +30,7 @@ else
 
 	#add admin and another user
 	wp core install --url=$WP_URL --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_MAIL --allow-root
-    wp user create $WP_SUBSCRIBER_USER $WP_SUBSCRIBER_MAIL --role=subscriber --user_pass=$WP_SUBSCRIBER_PASSWORD --allow-root
+    wp user create $WP_SUBSCRIBER_USER $WP_SUBSCRIBER_MAIL --role=author --user_pass=$WP_SUBSCRIBER_PASSWORD --allow-root
 
 fi
 
